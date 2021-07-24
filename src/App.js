@@ -3,6 +3,7 @@ import awsconfig from "./aws-exports";
 import AwsAmplify, { Auth, Hub } from "aws-amplify";
 import { useEffect, useState } from "react";
 import CreateTodo from "./createTodo";
+import GetTodos from "./getTodos";
 
 AwsAmplify.configure(awsconfig);
 
@@ -154,6 +155,7 @@ function App() {
         <div>
           <h1>Totally authenticated fam.</h1>
           <CreateTodo />
+          <GetTodos />
         </div>
       )}
     </div>
