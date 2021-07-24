@@ -2,7 +2,7 @@ import "./App.css";
 import awsconfig from "./aws-exports";
 import AwsAmplify, { Auth, Hub } from "aws-amplify";
 import { useEffect, useState } from "react";
-import { onAuthUIStateChange } from "@aws-amplify/ui-components";
+import CreateTodo from "./createTodo";
 
 AwsAmplify.configure(awsconfig);
 
@@ -64,7 +64,7 @@ function App() {
     event.preventDefault();
     try {
       const user = await AwsAmplify.Auth.signIn(username, password);
-      console.log(user);
+      // console.log(user);
     } catch (err) {
       console.log("there was an error, ", err);
     }
@@ -73,9 +73,9 @@ function App() {
   const signOut = async () => {
     try {
       const signout = await AwsAmplify.Auth.signOut({ global: true });
-      console.log(signout);
+      // console.log(signout);
     } catch (err) {
-      console.log("Something broke,  ", err);
+      // console.log("Something broke,  ", err);
     }
   };
   return (
@@ -151,7 +151,10 @@ function App() {
           </div>
         </div>
       ) : (
-        <h1>Totally authenticated fam.</h1>
+        <div>
+          <h1>Totally authenticated fam.</h1>
+          <CreateTodo />
+        </div>
       )}
     </div>
   );
