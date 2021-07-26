@@ -12,7 +12,10 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
+  const [confirmCodeUsername, setConfirmCodeUsername] = useState("");
   const [authState, setAuthState] = useState(false);
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   useEffect(() => {
     // console.log(AwsAmplify.Auth.currentUserCredentials());
@@ -33,6 +36,7 @@ function App() {
     }
   };
   const handleSignup = async (e) => {
+    console.log("creating user account");
     e.preventDefault();
     try {
       const { user } = await AwsAmplify.Auth.signUp({
@@ -44,7 +48,7 @@ function App() {
       });
       console.log("Account created ", user);
     } catch (err) {
-      console.log("something broke ", e);
+      console.log("something broke ", err);
     }
   };
 
@@ -52,7 +56,7 @@ function App() {
     event.preventDefault();
     try {
       const response = await AwsAmplify.Auth.confirmSignUp(
-        "sammyodiagbe",
+        confirmCodeUsername,
         code
       );
       console.log(response);
@@ -64,7 +68,7 @@ function App() {
   const handleUserSignIn = async (event) => {
     event.preventDefault();
     try {
-      const user = await AwsAmplify.Auth.signIn(username, password);
+      const user = await AwsAmplify.Auth.signIn(loginUsername, loginPassword);
       // console.log(user);
     } catch (err) {
       console.log("there was an error, ", err);
@@ -93,7 +97,9 @@ function App() {
                 type="text"
                 placeholder="your username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
                 autoComplete={"true"}
               />
               <br />
@@ -101,7 +107,9 @@ function App() {
                 type="email"
                 placeholder="your email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 autoComplete={"true"}
               />
               <br />
@@ -109,7 +117,9 @@ function App() {
                 type="password"
                 placeholder="Your password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 autoComplete={"true"}
               />
               <br />
@@ -118,6 +128,15 @@ function App() {
 
             <h1>Confirm Signup</h1>
             <form onSubmit={handleAccountConfirmation}>
+              <input
+                type="text"
+                placeholder="Username"
+                value={confirmCodeUsername}
+                onChange={(e) => setConfirmCodeUsername(e.target.value)}
+                autoComplete={"true"}
+              />
+              <br />
+
               <input
                 type="text"
                 placeholder="Enter code"
@@ -134,22 +153,23 @@ function App() {
               <input
                 type="text"
                 placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={loginUsername}
+                onChange={(e) => setLoginUsername(e.target.value)}
                 autoComplete={"true"}
               />
               <br />
               <input
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
                 autoComplete={"true"}
               />
               <br />
               <button>Sign in</button>
             </form>
           </div>
+          <GetTodos />
         </div>
       ) : (
         <div>
