@@ -6,3 +6,39 @@ type Todo
   description: String!
   owner: String
 }
+
+type Project @model {
+  id: ID!
+  title: String!
+  description: String!
+  team: Team @connection
+}
+
+type Team @model {
+  id: ID!
+  name: String!
+}
+
+type Place @model {
+  id: ID!
+  name: String!
+  continent: String!
+}
+
+#one to many
+
+type User @model {
+  id: ID!
+  username: String!
+  avatar_url: String!
+  hasPet: Boolean!
+  designs: [Designs] @connection(keyName: "byDesigns", fields: ["id"])
+}
+
+type Designs @model @key(name: "byDesigns", fields: ["user_id", "design_url"]) {
+  id: ID!
+  user_id: ID!
+  design_url: String!
+  design_type: String!
+  likes: Int!
+}
